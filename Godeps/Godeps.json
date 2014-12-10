@@ -1,0 +1,11 @@
+{
+	"ImportPath": "github.com/nicknovitski/git-substitute",
+	"GoVersion": "go1.3.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/docopt/docopt-go",
+			"Comment": "0.6.1-5-g854c423",
+			"Rev": "854c423c810880e30b9fecdabb12d54f4a92f9bb"
+		}
+	]
+}
