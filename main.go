@@ -10,7 +10,7 @@ func main() {
 	usage := `Git Substitute.
 
 Usage:
-  git-substitute <search-pattern> <replace-pattern>
+  git-substitute <search-pattern> <replace-pattern> [<path>]
   git-substitute -h | --help
   git-substitute -V | --version
 
@@ -19,7 +19,11 @@ Options:
   --version     Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "Git Substitute 1.0", false)
-	grep := exec.Command("git", "grep", "-El", fmt.Sprintf("%s", arguments["<search-pattern>"]))
+	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", arguments["<search-pattern>"])}
+	if arguments["<path>"] != nil {
+		grepArgs = append(grepArgs, arguments["<path>"].(string))
+	}
+	grep := exec.Command("git", grepArgs...)
 	sed := exec.Command("xargs", "sed", "-ri", fmt.Sprintf("s/%s/%s/g", arguments["<search-pattern>"], arguments["<replace-pattern>"]))
 	grepOut, _ := grep.StdoutPipe()
 	grep.Start()
