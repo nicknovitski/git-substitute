@@ -6,6 +6,19 @@ import (
 	"os/exec"
 )
 
+func grep(arguments map[string]interface{}) *exec.Cmd {
+	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", arguments["<search-pattern>"])}
+	if arguments["<path>"] != nil {
+		grepArgs = append(grepArgs, arguments["<path>"].(string))
+	}
+	return exec.Command("git", grepArgs...)
+}
+
+func sed(arguments map[string]interface{}) *exec.Cmd {
+    search := fmt.Sprintf("s/%s/%s/g", arguments["<search-pattern>"], arguments["<replace-pattern>"])
+	return exec.Command("xargs", "sed", "-ri", search)
+}
+
 func main() {
 	usage := `Git Substitute.
 
@@ -19,12 +32,8 @@ Options:
   --version     Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "Git Substitute 1.0", false)
-	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", arguments["<search-pattern>"])}
-	if arguments["<path>"] != nil {
-		grepArgs = append(grepArgs, arguments["<path>"].(string))
-	}
-	grep := exec.Command("git", grepArgs...)
-	sed := exec.Command("xargs", "sed", "-ri", fmt.Sprintf("s/%s/%s/g", arguments["<search-pattern>"], arguments["<replace-pattern>"]))
+	grep := grep(arguments)
+	sed := sed(arguments)
 	grepOut, _ := grep.StdoutPipe()
 	grep.Start()
 	sed.Stdin = grepOut
