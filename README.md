@@ -5,8 +5,10 @@ the stupid search and replacer
 
 ## Installation
 
-If you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just
-`go get github.com/nicknovitski/git-substitute`.
+If you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just:
+```shell
+$ go get github.com/nicknovitski/git-substitute
+```
 
 Pre-built binaries coming Real Soon Now.
 
@@ -16,16 +18,13 @@ Pass a search pattern and a replacement string to replace text matching
 the former with the latter.
 
 ```shell
-git substitute foo bar
-# "foo" -> "bar"
-git substitute people?s persons
-# "people" & "peoples" -> "persons"
+$ git substitute foo bar # "foo" -> "bar"
+$ git substitute people?s persons # "people" & "peoples" -> "persons"
 ```
 
 Pass one or more paths to restrict the substitution.
 ```shell
-git substitute Command Demand bin doc
-# "Command" -> "Demand", but only in bin/ and doc/
+$ git substitute Command Demand bin doc # "Command" -> "Demand", but only in bin/ and doc/
 ```
 
 Remember that your shell will get confused by parens and backslashes
@@ -47,5 +46,5 @@ I would have just named the command `sub`, but:
 ## Acknowledgments
 
 I can't remember when I first read [jason meredith's grep-l-pipe-xargs-sed-i-s method]
-(http://blog.jasonmeridth.com/posts/use-git-grep-to-replace-strings-in-files-in-your-git-repository/)
-, but I remember many times since then when it's enabled me to trivially accomplish enormous things.
+(http://blog.jasonmeridth.com/posts/use-git-grep-to-replace-strings-in-files-in-your-git-repository/),
+but I remember many times since then when it's enabled me to trivially accomplish enormous things.
