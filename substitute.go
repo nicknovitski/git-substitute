@@ -12,12 +12,7 @@ type Substitute struct {
 }
 
 func (s *Substitute) Run() ([]byte, error) {
-	grep := s.grep()
-	sed := s.sed()
-	grepOut, _ := grep.StdoutPipe()
-	grep.Start()
-	sed.Stdin = grepOut
-	return sed.CombinedOutput()
+	return s.command().CombinedOutput()
 }
 
 func (s *Substitute) grep() *exec.Cmd {
@@ -31,4 +26,13 @@ func (s *Substitute) grep() *exec.Cmd {
 func (s *Substitute) sed() *exec.Cmd {
 	search := fmt.Sprintf("s/%s/%s/g", s.searchPattern, s.replacePattern)
 	return exec.Command("xargs", "sed", "--regexp-extended", "--in-place", search)
+}
+
+func (s *Substitute) command() *exec.Cmd {
+	grep := s.grep()
+	sed := s.sed()
+	grepOut, _ := grep.StdoutPipe()
+	grep.Start()
+	sed.Stdin = grepOut
+	return sed
 }
