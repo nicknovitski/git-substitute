@@ -3,45 +3,32 @@ package main
 import (
 	"fmt"
 	"os/exec"
-	"os"
 )
 
-type CLI struct {
-	searchPattern string
+type Substitute struct {
+	searchPattern  string
 	replacePattern string
-	paths []string
+	paths          []string
 }
 
-func cliFromDocopts(arguments map[string]interface{}) *CLI {
-	return &CLI{
-		searchPattern: arguments["<search-pattern>"].(string),
-		replacePattern: arguments["<replace-pattern>"].(string),
-		paths: arguments["<path>"].([]string),
-	}
-}
-
-func (cli *CLI) Run() {
-	grep := cli.grep()
-	sed := cli.sed()
+func (s *Substitute) Run() ([]byte, error) {
+	grep := s.grep()
+	sed := s.sed()
 	grepOut, _ := grep.StdoutPipe()
 	grep.Start()
 	sed.Stdin = grepOut
-	output, err := sed.CombinedOutput()
-	fmt.Print(string(output))
-	if err != nil {
-		os.Exit(1)
-	}
+	return sed.CombinedOutput()
 }
 
-func (cli *CLI) grep() *exec.Cmd {
-	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", cli.searchPattern)}
-	if len(cli.paths) > 0 {
-	  grepArgs = append(grepArgs, cli.paths...)
+func (s *Substitute) grep() *exec.Cmd {
+	grepArgs := []string{"grep", "-El", s.searchPattern}
+	if len(s.paths) > 0 {
+		grepArgs = append(grepArgs, s.paths...)
 	}
 	return exec.Command("git", grepArgs...)
 }
 
-func (cli *CLI) sed() *exec.Cmd {
-	search := fmt.Sprintf("s/%s/%s/g", cli.searchPattern, cli.replacePattern)
+func (s *Substitute) sed() *exec.Cmd {
+	search := fmt.Sprintf("s/%s/%s/g", s.searchPattern, s.replacePattern)
 	return exec.Command("xargs", "sed", "-ri", search)
 }

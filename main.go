@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/docopt/docopt-go"
+	"os"
 )
 
 func main() {
@@ -17,5 +19,14 @@ Options:
   --version     Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "Git Substitute 1.0", false)
-	cliFromDocopts(arguments).Run()
+	command := &Substitute{
+		searchPattern:  arguments["<search-pattern>"].(string),
+		replacePattern: arguments["<replace-pattern>"].(string),
+		paths:          arguments["<path>"].([]string),
+	}
+	out, err := command.Run()
+	if err != nil {
+		fmt.Print(string(out))
+		os.Exit(1)
+	}
 }
