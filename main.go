@@ -8,7 +8,7 @@ func main() {
 	usage := `Git Substitute.
 
 Usage:
-  git-substitute <search-pattern> <replace-pattern> [<path>]
+  git-substitute <search-pattern> <replace-pattern> [<path> ...]
   git-substitute -h | --help
   git-substitute -V | --version
 

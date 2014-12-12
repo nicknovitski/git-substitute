@@ -8,10 +8,11 @@ import (
 
 type CLI struct {
 	arguments map[string]interface{}
+	paths []string
 }
 
 func newCLI(arguments map[string]interface{}) *CLI {
-	return &CLI{arguments}
+	return &CLI{arguments: arguments, paths: arguments["<path>"].([]string)}
 }
 
 func (cli *CLI) Run() {
@@ -29,8 +30,8 @@ func (cli *CLI) Run() {
 
 func (cli *CLI) grep() *exec.Cmd {
 	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", cli.arguments["<search-pattern>"])}
-	if cli.arguments["<path>"] != nil {
-		grepArgs = append(grepArgs, cli.arguments["<path>"].(string))
+	if len(cli.paths) > 0 {
+	  grepArgs = append(grepArgs, cli.paths...)
 	}
 	return exec.Command("git", grepArgs...)
 }
