@@ -15,8 +15,8 @@ Usage:
   git-substitute -V | --version
 
 Options:
-  -h --help     Show this screen.
-  --version     Show version.`
+  -h --help        Show this screen.
+  -V --version     Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "Git Substitute 1.0", false)
 	command := &Substitute{
