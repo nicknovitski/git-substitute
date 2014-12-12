@@ -24,8 +24,11 @@ func (s *Substitute) grep() *exec.Cmd {
 }
 
 func (s *Substitute) sed() *exec.Cmd {
-	search := fmt.Sprintf("s/%s/%s/g", s.searchPattern, s.replacePattern)
-	return exec.Command("xargs", "sed", "--regexp-extended", "--in-place", search)
+	return exec.Command("xargs", "sed", "--regexp-extended", "--in-place", s.sedSubCommand())
+}
+
+func (s *Substitute) sedSubCommand() string {
+	return fmt.Sprintf("s/%s/%s/g", s.searchPattern, s.replacePattern)
 }
 
 func (s *Substitute) command() *exec.Cmd {
