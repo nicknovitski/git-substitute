@@ -18,7 +18,7 @@ Options:
   -h --help        Show this screen.
   -V --version     Show version.`
 
-	arguments, _ := docopt.Parse(usage, nil, true, "Git Substitute 1.0", false)
+	arguments, _ := docopt.Parse(usage, nil, true, "git-substitute 1.0", false)
 	command := &Substitute{
 		searchPattern:  arguments["<search-pattern>"].(string),
 		replacePattern: arguments["<replace-pattern>"].(string),
