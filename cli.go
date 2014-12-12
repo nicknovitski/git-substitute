@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"os"
 )
 
 type CLI struct {
@@ -19,8 +20,11 @@ func (cli *CLI) Run() {
 	grepOut, _ := grep.StdoutPipe()
 	grep.Start()
 	sed.Stdin = grepOut
-	output, _ := sed.CombinedOutput()
+	output, err := sed.CombinedOutput()
 	fmt.Print(string(output))
+	if err != nil {
+		os.Exit(1)
+	}
 }
 
 func (cli *CLI) grep() *exec.Cmd {
