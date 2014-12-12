@@ -7,12 +7,17 @@ import (
 )
 
 type CLI struct {
-	arguments map[string]interface{}
+	searchPattern string
+	replacePattern string
 	paths []string
 }
 
-func newCLI(arguments map[string]interface{}) *CLI {
-	return &CLI{arguments: arguments, paths: arguments["<path>"].([]string)}
+func cliFromDocopts(arguments map[string]interface{}) *CLI {
+	return &CLI{
+		searchPattern: arguments["<search-pattern>"].(string),
+		replacePattern: arguments["<replace-pattern>"].(string),
+		paths: arguments["<path>"].([]string),
+	}
 }
 
 func (cli *CLI) Run() {
@@ -29,7 +34,7 @@ func (cli *CLI) Run() {
 }
 
 func (cli *CLI) grep() *exec.Cmd {
-	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", cli.arguments["<search-pattern>"])}
+	grepArgs := []string{"grep", "-El", fmt.Sprintf("%s", cli.searchPattern)}
 	if len(cli.paths) > 0 {
 	  grepArgs = append(grepArgs, cli.paths...)
 	}
@@ -37,6 +42,6 @@ func (cli *CLI) grep() *exec.Cmd {
 }
 
 func (cli *CLI) sed() *exec.Cmd {
-	search := fmt.Sprintf("s/%s/%s/g", cli.arguments["<search-pattern>"], cli.arguments["<replace-pattern>"])
+	search := fmt.Sprintf("s/%s/%s/g", cli.searchPattern, cli.replacePattern)
 	return exec.Command("xargs", "sed", "-ri", search)
 }

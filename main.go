@@ -17,5 +17,5 @@ Options:
   --version     Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "Git Substitute 1.0", false)
-	newCLI(arguments).Run()
+	cliFromDocopts(arguments).Run()
 }
