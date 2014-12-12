@@ -21,7 +21,7 @@ func (s *Substitute) Run() ([]byte, error) {
 }
 
 func (s *Substitute) grep() *exec.Cmd {
-	grepArgs := []string{"grep", "-El", s.searchPattern}
+	grepArgs := []string{"grep", "--extended-regexp", "--files-with-matches", s.searchPattern}
 	if len(s.paths) > 0 {
 		grepArgs = append(grepArgs, s.paths...)
 	}
@@ -30,5 +30,5 @@ func (s *Substitute) grep() *exec.Cmd {
 
 func (s *Substitute) sed() *exec.Cmd {
 	search := fmt.Sprintf("s/%s/%s/g", s.searchPattern, s.replacePattern)
-	return exec.Command("xargs", "sed", "-ri", search)
+	return exec.Command("xargs", "sed", "--regexp-extended", "--in-place", search)
 }
