@@ -2,13 +2,13 @@ language: go
 before_deploy:
   - go get github.com/mitchellh/gox
   - gox -build-toolchain
-  - gox -osarch="linux/amd64" -output="git-substitute" -verbose
+  - gox -osarch="linux/amd64" -output="{{.OS}}/{{.Arch}}/git-substitute" -verbose
 deploy:
   provider: releases
   api_key:
     secure: hb586to31wbpn//4UrnMhf7rVhcSu4Iz7z3tLNe4PbBzZsm3y7lZ1RnpkpcxzCV1hgD0rcVGYi77RZCJ5zGyTtMJEq3fOJlA7OPvvSx6TzD4hCznoyy3YiYj5OQsulcKSnAuuW7D3rHNoYJPDOKh44cO5FkOvFb+YJXIhyxGTBY=
   file:
-    - "git-substitute"
+    - "linux/amd64/git-substitute"
   skip_cleanup: true
   on:
     tags: true
