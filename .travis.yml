@@ -1,4 +1,11 @@
 language: go
+install:
+  - go get github.com/docopt/docopt-go
+  - go build
+  - git clone https://github.com/sstephenson/bats.git
+script:
+  - go test
+  - ./bats/bin/bats test
 before_deploy:
   - go get github.com/mitchellh/gox
   - gox -build-toolchain
