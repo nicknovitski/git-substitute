@@ -2,7 +2,7 @@ language: go
 before_deploy:
   - go get github.com/mitchellh/gox
   - gox -build-toolchain
-  - gox -osarch="linux/amd64" -output="{{.OS}}/{{.Arch}}/git-substitute" -verbose
+  - gox -os="darwin linux" arch="386 amd64" -output="{{.OS}}/{{.Arch}}/git-substitute" -verbose
 deploy:
   provider: releases
   api_key:
