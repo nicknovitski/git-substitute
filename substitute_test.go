@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func fileContains (filename string, contents string) bool{
+func fileContains(filename string, contents string) bool {
 	b, _ := ioutil.ReadFile(filename)
 	return string(b) == contents
 }
@@ -25,7 +25,7 @@ func TestReplaceInPath(t *testing.T) {
 
 	exec.Command("git", "add", "test1", "test2").Run()
 	defer exec.Command("git", "reset", "HEAD", "test1", "test2").Run()
-	
+
 	c.Run()
 	if fileContains("test1", "foo") {
 		t.Error("pattern not replaced in target")
