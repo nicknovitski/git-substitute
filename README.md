@@ -3,8 +3,10 @@ git-substitute
 
 the stupid search and replacer
 
+[![Latest Version](https://img.shields.io/github/release/nicknovitski/git-substitute.svg?style=flat-square)][release]
 [![Build Status](https://img.shields.io/travis/nicknovitski/git-substitute.svg?style=flat-square)][travis]
 
+[release]: https://github.com/nicknovitski/git-substitute/releases
 [travis]: https://travis-ci.org/nicknovitski/git-substitute
 
 ## Installation
