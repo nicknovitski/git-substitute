@@ -13,7 +13,7 @@ func fileContains(filename string, contents string) bool {
 }
 
 func TestReplaceInPath(t *testing.T) {
-	c := &Substitute{
+	c := &substitute{
 		searchPattern:  "foo",
 		replacePattern: "bar",
 		paths:          []string{"test1"},

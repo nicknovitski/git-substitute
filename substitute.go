@@ -5,17 +5,17 @@ import (
 	"os/exec"
 )
 
-type Substitute struct {
+type substitute struct {
 	searchPattern  string
 	replacePattern string
 	paths          []string
 }
 
-func (s *Substitute) Run() ([]byte, error) {
+func (s *substitute) Run() ([]byte, error) {
 	return s.command().CombinedOutput()
 }
 
-func (s *Substitute) grep() *exec.Cmd {
+func (s *substitute) grep() *exec.Cmd {
 	grepArgs := []string{"grep", "--extended-regexp", "--files-with-matches", s.searchPattern}
 	if len(s.paths) > 0 {
 		grepArgs = append(grepArgs, s.paths...)
@@ -23,15 +23,15 @@ func (s *Substitute) grep() *exec.Cmd {
 	return exec.Command("git", grepArgs...)
 }
 
-func (s *Substitute) sed() *exec.Cmd {
+func (s *substitute) sed() *exec.Cmd {
 	return exec.Command("xargs", "sed", "--regexp-extended", "--in-place", s.sedSubCommand())
 }
 
-func (s *Substitute) sedSubCommand() string {
+func (s *substitute) sedSubCommand() string {
 	return fmt.Sprintf("s/%s/%s/g", s.searchPattern, s.replacePattern)
 }
 
-func (s *Substitute) command() *exec.Cmd {
+func (s *substitute) command() *exec.Cmd {
 	grep := s.grep()
 	sed := s.sed()
 	grepOut, _ := grep.StdoutPipe()

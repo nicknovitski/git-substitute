@@ -19,7 +19,7 @@ Options:
   -V --version     Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "git-substitute 1.1.0", false)
-	command := &Substitute{
+	command := &substitute{
 		searchPattern:  arguments["<search-pattern>"].(string),
 		replacePattern: arguments["<replace-pattern>"].(string),
 		paths:          arguments["<path>"].([]string),
