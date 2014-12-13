@@ -3,6 +3,8 @@ git-substitute
 
 the stupid search and replacer
 
+[![Build Status](https://travis-ci.org/nicknovitski/git-substitute.svg?branch=master)](https://travis-ci.org/nicknovitski/git-substitute)
+
 ## Installation
 
 If you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just:
