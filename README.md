@@ -3,7 +3,9 @@ git-substitute
 
 the stupid search and replacer
 
-[![Build Status](https://travis-ci.org/nicknovitski/git-substitute.svg?branch=master)](https://travis-ci.org/nicknovitski/git-substitute)
+[![Build Status](https://img.shields.io/travis/nicknovitski/git-substitute.svg?style=flat-square)][travis]
+
+[travis]: https://travis-ci.org/nicknovitski/git-substitute
 
 ## Installation
 
