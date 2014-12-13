@@ -12,7 +12,9 @@ If you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just:
 $ go get github.com/nicknovitski/git-substitute
 ```
 
-Pre-built binaries coming Real Soon Now.
+Alternately, you can download a prebuilt binary from the [latest release](https://github.com/nicknovitski/git-substitute/releases/latest).
+
+Currently the only prebuilt binary is linux/amd64.  Darwin and 386 coming Real Soon Now.
 
 ## Usage
 
