@@ -52,6 +52,9 @@ I would have just named the command `sub`, but:
 
 ## Acknowledgments
 
-I can't remember when I first read [jason meredith's grep-l-pipe-xargs-sed-i-s method]
-(http://blog.jasonmeridth.com/posts/use-git-grep-to-replace-strings-in-files-in-your-git-repository/),
-but I remember many times since then when it's enabled me to trivially accomplish enormous things.
+I can't remember when I first read [jason meredith's blog post explaining the
+"grep -l pipe xargs sed -i s" method][use-git-grep], but I remember many times
+since then when it's enabled me to trivially accomplish enormous things.
+Thanks, Jason.  You've given me leverage.
+
+[idea-stolen-from]: http://blog.jasonmeridth.com/posts/use-git-grep-to-replace-strings-in-files-in-your-git-repository/
