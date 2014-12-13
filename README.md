@@ -20,8 +20,8 @@ Currently the only prebuilt binary is linux/amd64.  Darwin and 386 coming Real S
 
 ## Usage
 
-Pass a search pattern and a replacement string to replace text matching
-the former with the latter.
+Pass a search pattern and a replacement string to replace text matching the
+former with the latter.
 
 ```shell
 $ git substitute foo bar # "foo" -> "bar"
@@ -33,8 +33,9 @@ Pass one or more paths to restrict the substitution.
 $ git substitute Command Demand bin doc # "Command" -> "Demand", but only in bin/ and doc/
 ```
 
-Remember that your shell will get confused by parens and backslashes
-unless you wrap the patterns in quotes.
+You can use any 'extended' regular expression pattern, including groups, which
+can then be referenced in the second argument.  Remember that your shell will
+get confused by parens and backslashes unless you wrap the patterns in quotes.
 ```shell
 git substitute '\bUser\.find_by_name\((.*)\)' 'User.where(name: \1).first'
 ```
