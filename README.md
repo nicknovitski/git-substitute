@@ -27,7 +27,7 @@ former with the latter.
 
 ```shell
 $ git substitute foo bar # "foo" -> "bar"
-$ git substitute people?s persons # "people" & "peoples" -> "persons"
+$ git substitute peoples? persons? # "people" & "peoples" -> "persons?"
 ```
 
 Pass one or more paths to restrict the substitution.
