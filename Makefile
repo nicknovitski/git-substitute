@@ -1,4 +1,4 @@
-all: test
+default: test
 
 deps:
 	go get github.com/docopt/docopt-go
