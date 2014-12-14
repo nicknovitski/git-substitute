@@ -11,14 +11,13 @@ the stupid search and replacer
 
 ## Installation
 
-If you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just:
+[Download the appropriate binary for your OS and architecture](https://github.com/nicknovitski/git-substitute/releases/latest)
+and unzip it to somewhere in your `$PATH`.
+
+Alternately, you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just:
 ```shell
 $ go get github.com/nicknovitski/git-substitute
 ```
-
-Alternately, you can download a prebuilt binary from the [latest release](https://github.com/nicknovitski/git-substitute/releases/latest).
-
-Currently the only prebuilt binary is linux/amd64.  Darwin and 386 coming Real Soon Now.
 
 ## Usage
 
