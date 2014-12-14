@@ -14,5 +14,4 @@ bin/git-substitute: deps
 	go build -o bin/git-substitute
 
 test: bats bin/git-substitute
-	go test
 	bats/bin/bats test
