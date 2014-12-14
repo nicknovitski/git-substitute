@@ -12,7 +12,7 @@ teardown() {
 @test "subsitutes strings in files in path" {
   echo foo > tmp/added
   git add tmp/added
-  run ./git-substitute foo bar tmp
+  run bin/git-substitute foo bar tmp
   [ `cat tmp/added` = "bar" ]
 }
 
@@ -21,14 +21,14 @@ teardown() {
   git add tmp/path1
   echo foo > tmp/path2
   git add tmp/path2
-  run ./git-substitute foo bar tmp/path1 tmp/path2
+  run bin/git-substitute foo bar tmp/path1 tmp/path2
   [ `cat tmp/path1` = "bar" ]
   [ `cat tmp/path2` = "bar" ]
 }
 
 @test "ignores files not in repository" {
   echo foo > tmp/unadded
-  run ./git-substitute foo bar tmp
+  run bin/git-substitute foo bar tmp
   [ `cat tmp/unadded` = "foo" ]
 }
 
@@ -37,6 +37,6 @@ teardown() {
   mkdir tmp/unsearched
   echo foo > tmp/searched/test
   echo foo > tmp/unsearched/test
-  run ./git-substitute foo bar tmp/searched
+  run bin/git-substitute foo bar tmp/searched
   [ `cat tmp/unsearched/test` = "foo" ]
 }

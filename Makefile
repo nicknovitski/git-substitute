@@ -10,9 +10,9 @@ dist: deps
 bats :
 	git clone https://github.com/sstephenson/bats.git
 
-git-substitute : deps
-	go build
+bin/git-substitute: deps
+	go build -o bin/git-substitute
 
-test: bats git-substitute
+test: bats bin/git-substitute
 	go test
 	bats/bin/bats test
