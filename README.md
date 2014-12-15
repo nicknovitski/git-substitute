@@ -75,4 +75,4 @@ I can't remember when I first read [jason meredith's blog post explaining the
 since then when it's enabled me to trivially accomplish enormous things.
 Thanks, Jason.  You've given me leverage.
 
-[idea-stolen-from]: http://blog.jasonmeridth.com/posts/use-git-grep-to-replace-strings-in-files-in-your-git-repository/
+[use-git-grep]: http://blog.jasonmeridth.com/posts/use-git-grep-to-replace-strings-in-files-in-your-git-repository/
