@@ -7,6 +7,14 @@ import (
 	"strings"
 )
 
+func gitStatus() {
+	output, err := exec.Command("git", "status").CombinedOutput()
+	if err != nil {
+		fmt.Println(string(output))
+		os.Exit(1)
+	}
+}
+
 func gitGrep(patternType string, options []string, paths []string) ([]byte, error) {
 	command := append([]string{"grep"}, patternType)
 	if len(paths) > 0 {

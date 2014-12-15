@@ -13,6 +13,7 @@ func syntax(options map[string]interface{}) regexSyntax {
 	}
 }
 func main() {
+	gitStatus()
 	usage := `Usage:
   git-substitute [options] <search-pattern> <replace-pattern> [<path>...]
   git-substitute -h | --help
