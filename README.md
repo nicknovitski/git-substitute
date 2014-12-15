@@ -14,7 +14,8 @@ the stupid search and replacer
 [Download the appropriate binary for your OS and architecture](https://github.com/nicknovitski/git-substitute/releases/latest)
 and unzip it to somewhere in your `$PATH`.
 
-Alternately, you've already installed Go, and `$GOPATH/bin` is in your `$PATH`, then just:
+Alternately, if you've already installed Go, and `$GOPATH/bin` is in your
+`$PATH`, then just:
 ```shell
 $ go get github.com/nicknovitski/git-substitute
 ```
@@ -23,20 +24,36 @@ $ go get github.com/nicknovitski/git-substitute
 
 Pass a search pattern and a replacement string to replace text matching the
 former with the latter.
-
 ```shell
 $ git substitute foo bar # "foo" -> "bar"
-$ git substitute peoples? persons? # "people" & "peoples" -> "persons?"
 ```
 
-Pass one or more paths to restrict the substitution.
+Pass one or more paths to restrict the substitution to just those paths.
 ```shell
 $ git substitute Command Demand bin doc # "Command" -> "Demand", but only in bin/ and doc/
 ```
 
-You can use any 'extended' regular expression pattern, including groups, which
-can then be referenced in the second argument.  Remember that your shell will
-get confused by parens and backslashes unless you wrap the patterns in quotes.
+Wrap quotes around arguments with spaces or other shell metacharacters in them.
+```shell
+$ git substitute 'to boldy go' 'to go boldly'
+```
+
+The search pattern argument is an extended regex, interpreting metacharacters
+(`\^$.|?*()[]{}`), while the replacement argument treats them literally.
+```
+$ git substitute peoples? persons? # "people" & "peoples" -> "persons?"
+```
+
+Thus, to search for those characters as literals, escape them with a backslash
+and wrap quotes around the argument (technically you don't have to always do
+that second bit, but the alternative is even more backslashes, and ugh to
+that).
+```shell
+$ git substitute '50\.00' 49.99 # '50.00' -> '49.99'
+```
+
+The replacement argument recognizes one kind of metacharacter: group
+references, in the form `\1`, `\2`, etc.
 ```shell
 git substitute '\bUser\.find_by_name\((.*)\)' 'User.where(name: \1).first'
 ```
