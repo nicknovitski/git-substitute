@@ -24,7 +24,7 @@ func (s *substitute) grep() *exec.Cmd {
 }
 
 func (s *substitute) sed() *exec.Cmd {
-	return exec.Command("xargs", "sed", "-E", "--in-place", s.sedSubCommand())
+	return exec.Command("xargs", "sed", "-E", "-i", "--", s.sedSubCommand())
 }
 
 func (s *substitute) sedSubCommand() string {
