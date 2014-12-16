@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
+	"strings"
 )
 
 type substitute struct {
@@ -15,16 +17,26 @@ func (s *substitute) Run() ([]byte, error) {
 	return s.command().CombinedOutput()
 }
 
-func (s *substitute) grep() *exec.Cmd {
+func (s *substitute) matchingFiles() []string {
 	grepArgs := []string{"grep", "--extended-regexp", "--files-with-matches", s.searchPattern}
 	if len(s.paths) > 0 {
 		grepArgs = append(grepArgs, s.paths...)
 	}
-	return exec.Command("git", grepArgs...)
+	output, err := exec.Command("git", grepArgs...).CombinedOutput()
+	if err != nil {
+		fmt.Println(output)
+		os.Exit(1)
+	}
+	splitOut := strings.Split(string(output), "\n")
+	return splitOut[:len(splitOut)-1]
 }
 
-func (s *substitute) sed() *exec.Cmd {
-	return exec.Command("xargs", "sed", "-E", "-i", fmt.Sprintf("-e %s", s.sedSubCommand()))
+func (s *substitute) sed(files []string) *exec.Cmd {
+	sedArgs := []string{"-E", "-i", fmt.Sprintf("-e %s", s.sedSubCommand())}
+	if len(files) > 0 {
+		sedArgs = append(sedArgs, files...)
+	}
+	return exec.Command("sed", sedArgs...)
 }
 
 func (s *substitute) sedSubCommand() string {
@@ -32,10 +44,5 @@ func (s *substitute) sedSubCommand() string {
 }
 
 func (s *substitute) command() *exec.Cmd {
-	grep := s.grep()
-	sed := s.sed()
-	grepOut, _ := grep.StdoutPipe()
-	grep.Start()
-	sed.Stdin = grepOut
-	return sed
+	return s.sed(s.matchingFiles())
 }
