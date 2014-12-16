@@ -20,6 +20,13 @@ teardown() {
   [ `cat test2` = bar ]
 }
 
+@test "does not make new untracked files" {
+  echo foo > test1
+  git add .
+  ../bin/git-substitute foo bar
+  [ `git status --porcelain 2>/dev/null| grep "^??" | wc -l` = 0 ]
+}
+
 @test "first argument interprets regex metacharacters" {
   echo people > test1
   echo peoples > test2
