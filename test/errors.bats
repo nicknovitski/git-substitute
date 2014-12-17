@@ -10,7 +10,8 @@
   [ "$status" -eq 1 ]
 }
 
-@test "exit with status 1 if pattern not found" {
+@test "exit with status 1 and no output if pattern not found" {
   run bin/git-substitute 'w{4,}' 'www'
   [ "$status" -eq 1 ]
+  [ "$output" = "" ]
 }

@@ -24,7 +24,9 @@ func (s *substitute) matchingFiles() []string {
 	}
 	output, err := exec.Command("git", grepArgs...).CombinedOutput()
 	if err != nil {
-		fmt.Println(output)
+		if len(output) != 0 {
+		  fmt.Println(output)
+	  }
 		os.Exit(1)
 	}
 	splitOut := strings.Split(string(output), "\n")
