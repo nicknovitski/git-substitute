@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/docopt/docopt-go"
 	"os"
 )
@@ -22,9 +21,7 @@ Options:
 		replacePattern: arguments["<replace-pattern>"].(string),
 		paths:          arguments["<path>"].([]string),
 	}
-	out, err := command.Run()
-	if err != nil {
-		fmt.Print(string(out))
+	if err := command.Run(); err != nil {
 		os.Exit(1)
 	}
 }
