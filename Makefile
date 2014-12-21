@@ -20,4 +20,4 @@ bin/git-substitute: deps
 	go build -o bin/git-substitute
 
 test: bats bin/git-substitute
-	bats/bin/bats test
+	ls test/*.bats | parallel --no-notice bats/bin/bats
