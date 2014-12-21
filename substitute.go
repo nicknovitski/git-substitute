@@ -47,7 +47,7 @@ func (s *substitute) matchingFiles() []string {
 	output, err := exec.Command("git", grepArgs...).CombinedOutput()
 	if err != nil {
 		if len(output) != 0 {
-			fmt.Println(output)
+			fmt.Println(string(output))
 		}
 		os.Exit(1)
 	}
