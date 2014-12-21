@@ -1,17 +1,19 @@
 #!/usr/bin/env bats
 
+load isolation
+
 @test "exit with status 1 with no args" {
-  run bin/git-substitute
+  run git-substitute
   [ "$status" -eq 1 ]
 }
 
 @test "exit with status 1 with 1 arg" {
-  run bin/git-substitute anything
+  run git-substitute anything
   [ "$status" -eq 1 ]
 }
 
 @test "exit with status 1 and no output if pattern not found" {
-  run bin/git-substitute 'w{4,}' 'www'
+  run git-substitute anything something
   [ "$status" -eq 1 ]
   [ "$output" = "" ]
 }
