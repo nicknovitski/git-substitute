@@ -1,22 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
-	"os"
-	"os/exec"
 	"regexp"
-	"strings"
+)
+
+type regexSyntax int
+
+const (
+	basic regexSyntax = iota
+	extended
+	perl
 )
 
 type substitute struct {
 	searchPattern  string
 	replacePattern string
 	paths          []string
+	syntax         regexSyntax
 }
 
 func (s *substitute) Run() error {
-	for _, file := range s.matchingFiles() {
+	for _, file := range filesMatching(s.searchPattern, s.syntax, s.paths) {
 		contents, err := ioutil.ReadFile(file)
 		if err != nil {
 			return err
@@ -30,27 +35,56 @@ func (s *substitute) Run() error {
 }
 
 func (s *substitute) replace(source []byte) []byte {
+	return s.regex().ReplaceAll(source, []byte(s.goReplacePattern()))
+}
+
+func (s *substitute) goReplacePattern() string {
 	// Go uses $N for backreferences, not \N
-	goPattern := regexp.MustCompile(`\\(\d)`).ReplaceAllString(s.replacePattern, `$$$1`)
-	return s.regex().ReplaceAll(source, []byte(goPattern))
+	return regexp.MustCompile(`\\(\d)`).ReplaceAllString(s.replacePattern, `$$$1`)
 }
 
 func (s *substitute) regex() *regexp.Regexp {
-	return regexp.MustCompilePOSIX(s.searchPattern)
+	return regexp.MustCompilePOSIX(s.regularizedSearchPattern())
 }
 
-func (s *substitute) matchingFiles() []string {
-	grepArgs := []string{"grep", "--extended-regexp", "--files-with-matches", s.searchPattern}
-	if len(s.paths) > 0 {
-		grepArgs = append(grepArgs, s.paths...)
+func (s *substitute) regularizedSearchPattern() string {
+	if s.syntax == basic {
+		return escapeMetacharacters(s.searchPattern)
+	} else {
+		return s.searchPattern
 	}
-	output, err := exec.Command("git", grepArgs...).CombinedOutput()
-	if err != nil {
-		if len(output) != 0 {
-			fmt.Println(string(output))
+}
+
+func escapeMetacharacters(target string) string {
+	metas := []string{`\?`, `\+`, `\|`}
+	for _, meta := range metas {
+		target = regexp.MustCompile(meta).ReplaceAllString(target, meta)
+	}
+	result := parensAndBrackets().ReplaceAllFunc([]byte(target), reverseEscape(`(`, `)`, `{`, `}`))
+	return string(result)
+}
+
+func parensAndBrackets() *regexp.Regexp {
+	return regexp.MustCompile(`\\?[\(\)\{\}]`)
+}
+
+func reverseEscape(matches ...string) func([]byte) []byte {
+	escapedMatches := make([]string, len(matches))
+	for i, match := range matches {
+		escapedMatches[i] = `\` + match
+	}
+
+	return func(match []byte) []byte {
+		for i, m := range matches {
+			if m == string(match) {
+				return []byte(escapedMatches[i])
+			}
 		}
-		os.Exit(1)
+		for i, m := range escapedMatches {
+			if m == string(match) {
+				return []byte(matches[i])
+			}
+		}
+		return match
 	}
-	splitOut := strings.Split(string(output), "\n")
-	return splitOut[:len(splitOut)-1]
 }
