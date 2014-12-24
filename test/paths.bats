@@ -1,39 +1,40 @@
 #!/usr/bin/env bats
 
 load isolation
+load helpers
 
 @test "subsitutes strings in files in path" {
   mkdir tmp
-  echo foo > tmp/added
+  given_file tmp/added foo
   git add tmp
   git-substitute foo bar tmp
-  [ `cat tmp/added` = "bar" ]
+  assert_file_contains tmp/added bar
 }
 
 @test "accepts multiple paths" {
-  echo foo > path1
+  given_file path1 foo
+  given_file path2 foo
   git add path1
-  echo foo > path2
   git add path2
   git-substitute foo bar path1 path2
-  [ `cat path1` = "bar" ]
-  [ `cat path2` = "bar" ]
+  assert_file_contains path1 bar
+  assert_file_contains path2 bar
 }
 
 @test "ignores files not in repository" {
-  echo foo > unadded
-  echo foo > added
+  given_file unadded foo
+  given_file added foo
   git add added
   git-substitute foo bar
-  [ `cat unadded` = "foo" ]
+  assert_file_contains unadded foo
 }
 
 @test "ignores files not in path" {
   mkdir searched
   mkdir unsearched
-  echo foo > searched/test
-  echo foo > unsearched/test
+  given_file searched/test foo
+  given_file unsearched/test foo
   git add searched unsearched
   git-substitute foo bar searched
-  [ `cat unsearched/test` = "foo" ]
+  assert_file_contains unsearched/test foo
 }
