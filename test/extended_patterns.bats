@@ -3,22 +3,6 @@
 load isolation
 load helpers
 
-@test "substitutes strings across the repo" {
-  given_file test1 foo
-  given_file test2 foo
-  git add .
-  git-substitute foo bar
-  assert_file_contains test1 bar
-  assert_file_contains test2 bar
-}
-
-@test "does not make new untracked files" {
-  given_file test1 foo
-  git add .
-  git-substitute foo bar
-  [ `git status --porcelain 2>/dev/null| grep "^??" | wc -l` = 0 ]
-}
-
 @test "first argument interprets regex metacharacters" {
   given_file test1 people
   given_file test2 peoples
@@ -26,13 +10,6 @@ load helpers
   git-substitute peoples? persons
   assert_file_contains test1 persons
   assert_file_contains test2 persons
-}
-
-@test "second argument treats regex metacharacters literally" {
-  given_file test1 foo
-  git add .
-  git-substitute foo ^.?*+[]{}
-  assert_file_contains test1 '^.?*+[]{}'
 }
 
 @test "first argument can accept escaped regex metacharactrs" {

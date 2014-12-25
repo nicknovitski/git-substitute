@@ -3,6 +3,15 @@
 load isolation
 load helpers
 
+@test "without a path argument, substitutes in all tracked files" {
+  given_file test1 foo
+  given_file test2 foo
+  git add .
+  git-substitute foo bar
+  assert_file_contains test1 bar
+  assert_file_contains test2 bar
+}
+
 @test "subsitutes strings in files in path" {
   mkdir tmp
   given_file tmp/added foo
