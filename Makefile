@@ -5,6 +5,7 @@ deps:
 
 dist: deps
 	go get github.com/mitchellh/gox
+	gox -build-toolchain -os="darwin linux" -arch="386 amd64"
 	gox -os="darwin linux" -arch="386 amd64" -output="dist/{{.OS}}/{{.Arch}}/git-substitute" -verbose
 	tar --create --gzip --verbose --file=dist/git_substitute_linux_amd64.tar.gz --directory=dist/linux/amd64 git-substitute
 	tar --create --gzip --verbose --file=dist/git_substitute_linux_386.tar.gz --directory=dist/linux/386 git-substitute

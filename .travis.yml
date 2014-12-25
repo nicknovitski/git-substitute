@@ -1,8 +1,6 @@
 language: go
 install: make deps bats
-before_deploy:
-  - gox -build-toolchain -os="darwin linux" -arch="386 amd64"
-  - make dist
+before_deploy: make dist
 deploy:
   provider: releases
   api_key:
