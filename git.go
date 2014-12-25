@@ -24,7 +24,9 @@ func gitGrep(patternType string, options []string, paths []string) ([]byte, erro
 }
 
 func grepSyntaxArg(syntax regexSyntax) string {
-	if syntax == basic {
+	if syntax == perl {
+		return "--perl-regexp"
+	} else if syntax == basic {
 		return "--basic-regexp"
 	} else {
 		return "--extended-regexp"

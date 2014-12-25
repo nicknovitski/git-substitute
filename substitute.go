@@ -44,7 +44,11 @@ func (s *substitute) goReplacePattern() string {
 }
 
 func (s *substitute) regex() *regexp.Regexp {
-	return regexp.MustCompilePOSIX(s.regularizedSearchPattern())
+	if s.syntax == perl {
+		return regexp.MustCompile(s.regularizedSearchPattern())
+	} else {
+		return regexp.MustCompilePOSIX(s.regularizedSearchPattern())
+	}
 }
 
 func (s *substitute) regularizedSearchPattern() string {

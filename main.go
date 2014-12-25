@@ -8,6 +8,8 @@ import (
 func syntax(options map[string]interface{}) regexSyntax {
 	if options["--basic-regexp"].(bool) {
 		return basic
+	} else if options["--perl-regexp"].(bool) {
+		return perl
 	} else {
 		return extended
 	}
@@ -21,6 +23,7 @@ func main() {
 
 Options:
   -G --basic-regexp  Use basic POSIX regular expressions.
+  -P --perl-regexp   Use Perl-compatible regular expressions.
   -h --help          Show this screen.
   -V --version       Show version.`
 
