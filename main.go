@@ -22,10 +22,11 @@ func main() {
   git-substitute -V | --version
 
 Options:
-  -G --basic-regexp  Use basic POSIX regular expressions.
-  -P --perl-regexp   Use Perl-compatible regular expressions.
-  -h --help          Show this screen.
-  -V --version       Show version.`
+  -G --basic-regexp     Use basic POSIX regular expressions.
+  -E --extended-regexp  Use extended POSIX regular expressions.
+  -P --perl-regexp      Use Perl-compatible regular expressions.
+  -h --help             Show this screen.
+  -V --version          Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "git-substitute 1.3.2", false)
 	command := &substitute{
