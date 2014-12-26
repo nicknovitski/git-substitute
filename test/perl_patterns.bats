@@ -17,6 +17,6 @@ assert_recognizes_slash_d() {
   assert_recognizes_slash_d -P
 }
 
-@test "with -P, perl character classes become available" {
+@test "with --perl-regexp, perl character classes become available" {
   assert_recognizes_slash_d --perl-regexp
 }
