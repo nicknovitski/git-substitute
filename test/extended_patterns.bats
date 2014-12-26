@@ -37,13 +37,6 @@ assert_treats_dollar_sign_as_literal() {
   assert_treats_dollar_sign_as_literal --extended-regexp
 }
 
-@test "first argument treats quotes literally" {
-  given_file quoteme "'"
-  git add .
-  git-substitute -P \' bar
-  assert_file_contains quoteme bar
-}
-
 assert_standard_regex_round_brackets() {
   OPTION=$1
   given_file test1 "User.find_by_name('charles')"
