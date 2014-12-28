@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"regexp"
+	"strconv"
 )
 
 type regexSyntax int
@@ -21,17 +23,43 @@ type substitute struct {
 }
 
 func (s *substitute) Run() error {
+	if bErr := s.backreferenceError(); bErr != nil {
+		return bErr
+	}
 	for _, file := range filesMatching(s.searchPattern, s.syntax, s.paths) {
 		contents, err := ioutil.ReadFile(file)
 		if err != nil {
 			return err
 		}
-		err = ioutil.WriteFile(file, s.replace(contents), 0777)
-		if err != nil {
+		if err = ioutil.WriteFile(file, s.replace(contents), 0777); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func (s *substitute) backreferenceError() error {
+	if highestNumberedBackreference(s.replacePattern) > s.regex().NumSubexp() {
+		return errors.New("backreference without matching group expression")
+	} else {
+		return nil
+	}
+}
+
+func highestNumberedBackreference(pattern string) int {
+	backrefs := regexp.MustCompile(`\\\d`).FindAllString(pattern, -1)
+	result := 0
+	for _, backref := range backrefs {
+		if curr := backreferenceNumber(backref); curr > result {
+			result = curr
+		}
+	}
+	return result
+}
+
+func backreferenceNumber(backref string) int {
+	num, _ := strconv.Atoi(backref[1:])
+	return num
 }
 
 func (s *substitute) replace(source []byte) []byte {

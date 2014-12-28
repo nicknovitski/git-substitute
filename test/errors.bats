@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 
 load isolation
+load helpers
 
 @test "give standard git error when run outside of a git repository" {
   cd ..
@@ -23,4 +24,20 @@ load isolation
   run git-substitute anything something
   [ "$status" -eq 1 ]
   [ "$output" = "" ]
+}
+
+@test "exit with status 1 if backreference given with no grouped expression" {
+  given_file target text
+  git add target
+  run git-substitute text 'changed \1'
+  [ "$status" -eq 1 ]
+  assert_file_contains target text
+}
+
+@test "exit with status 1 if backreference given without corresponding grouped expression" {
+  given_file target foo
+  git add target
+  run git-substitute '(foo)' '\2'
+  [ "$status" -eq 1 ]
+  assert_file_contains target foo
 }
