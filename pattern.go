@@ -2,24 +2,8 @@ package main
 
 import (
 	"regexp"
-	"strconv"
 )
 
-func highestNumberedBackreference(pattern string) int {
-	backrefs := regexp.MustCompile(`\\\d`).FindAllString(pattern, -1)
-	result := 0
-	for _, backref := range backrefs {
-		if curr := backreferenceNumber(backref); curr > result {
-			result = curr
-		}
-	}
-	return result
-}
-
-func backreferenceNumber(backref string) int {
-	num, _ := strconv.Atoi(backref[1:])
-	return num
-}
 
 func escapeMetacharacters(target string) string {
 	metas := []string{`\?`, `\+`, `\|`}
@@ -53,10 +37,6 @@ func reverseEscape(matches ...string) func([]byte) []byte {
 		}
 		return match
 	}
-}
-
-func goStyleReplace(pattern string) []byte {
-	return []byte(regexp.MustCompile(`\\(\d)`).ReplaceAllString(pattern, `$$$1`))
 }
 
 func regex(pattern string, syntax regexSyntax) *regexp.Regexp {
