@@ -21,12 +21,7 @@ Options:
   -V --version          Show version.`
 
 	arguments, _ := docopt.Parse(usage, nil, true, "git-substitute 1.4.0", false)
-	command := &substitute{
-		searchPattern:  arguments["<search-pattern>"].(string),
-		replacePattern: arguments["<replace-pattern>"].(string),
-		paths:          arguments["<path>"].([]string),
-		syntax:         syntax(arguments),
-	}
+	command := Sub(arguments["<search-pattern>"].(string), arguments["<replace-pattern>"].(string), arguments["<path>"].([]string), syntax(arguments))
 	if err := command.Run(); err != nil {
 		os.Exit(1)
 	}

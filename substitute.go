@@ -13,6 +13,15 @@ type substitute struct {
 	syntax         regexSyntax
 }
 
+func Sub(searchPattern string, replacePattern string, paths []string, syntax regexSyntax) *substitute {
+	return &substitute{
+		searchPattern:  searchPattern,
+		replacePattern: replacePattern,
+		paths:          paths,
+		syntax:         syntax,
+	}
+}
+
 func (s *substitute) Run() error {
 	if bErr := s.backreferenceError(); bErr != nil {
 		return bErr
