@@ -10,6 +10,8 @@ func syntax(options map[string]interface{}) regexSyntax {
 		return basic
 	} else if options["--perl-regexp"].(bool) {
 		return perl
+	} else if options["--fixed-strings"].(bool) {
+		return fixed
 	} else {
 		return extended
 	}
@@ -24,6 +26,7 @@ func main() {
 Options:
   -G --basic-regexp     Use basic POSIX regular expressions.
   -E --extended-regexp  Use extended POSIX regular expressions.
+  -F --fixed-strings    Use fixed strings for patterns.
   -P --perl-regexp      Use Perl-compatible regular expressions.
   -h --help             Show this screen.
   -V --version          Show version.`

@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 type regexSyntax int
@@ -13,6 +14,7 @@ const (
 	basic regexSyntax = iota
 	extended
 	perl
+	fixed
 )
 
 type substitute struct {
@@ -63,7 +65,14 @@ func backreferenceNumber(backref string) int {
 }
 
 func (s *substitute) replace(source []byte) []byte {
+	if s.syntax == fixed {
+		return s.literalReplace(source)
+	}
 	return s.regex().ReplaceAll(source, []byte(s.goReplacePattern()))
+}
+
+func (s *substitute) literalReplace(source []byte) []byte {
+	return []byte(strings.Replace(string(source), string(s.searchPattern), string(s.replacePattern), -1))
 }
 
 func (s *substitute) goReplacePattern() string {
