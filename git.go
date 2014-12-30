@@ -23,19 +23,9 @@ func gitGrep(patternType string, options []string, paths []string) ([]byte, erro
 	return exec.Command("git", append(command, options...)...).CombinedOutput()
 }
 
-func grepSyntaxArg(syntax regexSyntax) string {
-	if syntax == perl {
-		return "--perl-regexp"
-	} else if syntax == basic {
-		return "--basic-regexp"
-	} else {
-		return "--extended-regexp"
-	}
-}
-
-func filesMatching(pattern string, syntax regexSyntax, paths []string) []string {
-	grepArgs := []string{"--files-with-matches", pattern}
-	output, err := gitGrep(grepSyntaxArg(syntax), grepArgs, paths)
+func filesMatching(pattern *searchPattern, paths []string) []string {
+	grepArgs := []string{"--files-with-matches", pattern.string()}
+	output, err := gitGrep(pattern.grepArg(), grepArgs, paths)
 	if err != nil {
 		if len(output) != 0 {
 			fmt.Println(string(output))

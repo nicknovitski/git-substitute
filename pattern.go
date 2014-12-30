@@ -4,6 +4,40 @@ import (
 	"regexp"
 )
 
+type searchPattern struct {
+	pattern string
+	syntax  regexSyntax
+}
+
+func (s *searchPattern) string() string {
+	return s.pattern
+}
+
+func (s *searchPattern) grepArg() string {
+	if s.syntax == perl {
+		return "--perl-regexp"
+	} else if s.syntax == basic {
+		return "--basic-regexp"
+	} else {
+		return "--extended-regexp"
+	}
+}
+
+func (s *searchPattern) regexp() *regexp.Regexp {
+	if s.syntax == perl {
+		return regexp.MustCompile(s.goStyle())
+	} else {
+		return regexp.MustCompilePOSIX(s.goStyle())
+	}
+}
+
+func (s *searchPattern) goStyle() string {
+	if s.syntax == basic {
+		return escapeMetacharacters(s.pattern)
+	} else {
+		return s.pattern
+	}
+}
 
 func escapeMetacharacters(target string) string {
 	metas := []string{`\?`, `\+`, `\|`}
@@ -36,21 +70,5 @@ func reverseEscape(matches ...string) func([]byte) []byte {
 			}
 		}
 		return match
-	}
-}
-
-func regex(pattern string, syntax regexSyntax) *regexp.Regexp {
-	if syntax == perl {
-		return regexp.MustCompile(regularizedPattern(pattern, syntax))
-	} else {
-		return regexp.MustCompilePOSIX(regularizedPattern(pattern, syntax))
-	}
-}
-
-func regularizedPattern(pattern string, syntax regexSyntax) string {
-	if syntax == basic {
-		return escapeMetacharacters(pattern)
-	} else {
-		return pattern
 	}
 }
