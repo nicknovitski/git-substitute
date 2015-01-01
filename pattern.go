@@ -23,6 +23,10 @@ func (s *searchPattern) grepArg() string {
 	}
 }
 
+func (s *searchPattern) includesBackreferences() bool {
+	return backreferenceRegexp().MatchString(s.pattern)
+}
+
 func (s *searchPattern) regexp() *regexp.Regexp {
 	if s.syntax == perl {
 		return regexp.MustCompile(s.goStyle())
@@ -71,4 +75,8 @@ func reverseEscape(matches ...string) func([]byte) []byte {
 		}
 		return match
 	}
+}
+
+func backreferenceRegexp() *regexp.Regexp {
+	return regexp.MustCompile(`\\(\d)`)
 }

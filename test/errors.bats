@@ -26,7 +26,14 @@ load helpers
   [ "$output" = "" ]
 }
 
-@test "exit with status 1 if backreference given with no grouped expression" {
+@test "exit with status 1 if first argument includes a backreference" {
+  given_file target foofoo
+  git add target
+  run git-substitute -G '\(foo\)\1' bar
+  [ "$status" -eq 1 ]
+}
+
+@test "exit with status 1 if second argument includes backreference without any grouped expressions" {
   given_file target text
   git add target
   run git-substitute text 'changed \1'
@@ -34,7 +41,7 @@ load helpers
   assert_file_contains target text
 }
 
-@test "exit with status 1 if backreference given without corresponding grouped expression" {
+@test "exit with status 1 if second argument includes backreference without a corresponding grouped expression" {
   given_file target foo
   git add target
   run git-substitute '(foo)' '\2'

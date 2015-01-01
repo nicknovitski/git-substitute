@@ -26,7 +26,7 @@ func backreferenceNumber(backref string) int {
 }
 
 func (r *replacePattern) goStyle() []byte {
-	return []byte(regexp.MustCompile(`\\(\d)`).ReplaceAllString(r.pattern, `$$$1`))
+	return []byte(backreferenceRegexp().ReplaceAllString(r.pattern, `$$$1`))
 }
 
 func (r *replacePattern) string() string {

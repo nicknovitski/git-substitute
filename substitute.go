@@ -39,7 +39,9 @@ func (s *substitute) Run() error {
 }
 
 func (s *substitute) backreferenceError() error {
-	if s.replacePattern.highestBackreferenceNumber() > s.searchPattern.regexp().NumSubexp() {
+	if s.searchPattern.includesBackreferences() {
+		return errors.New("search pattern cannot include backreferences")
+	} else if s.replacePattern.highestBackreferenceNumber() > s.searchPattern.regexp().NumSubexp() {
 		return errors.New("backreference without matching group expression")
 	} else {
 		return nil
