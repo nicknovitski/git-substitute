@@ -1,4 +1,5 @@
 language: go
+sudo: false
 install: make deps bats
 before_deploy: make dist
 deploy:
