@@ -14,12 +14,6 @@ the stupid search and replacer
 [Download the appropriate binary for your OS and architecture](https://github.com/nicknovitski/git-substitute/releases/latest)
 and unzip it to somewhere in your `$PATH`.
 
-Alternately, if you've already installed Go, and `$GOPATH/bin` is in your
-`$PATH`, then just:
-```shell
-$ go get github.com/nicknovitski/git-substitute
-```
-
 ## Usage
 
 Pass a search pattern and a replacement string to replace text matching the
