@@ -62,6 +62,13 @@ I would have just named the command `sub`, but:
 1. The other git commands are all complete English words.
 2. SEO.
 
+## Non-Usage
+
+Things which this command does not yet do:
+
+- Detect and respect your grep.patternType configuration
+- Perl-Compatible Regexes
+
 ## Acknowledgments
 
 I can't remember when I first read [jason meredith's blog post explaining the
