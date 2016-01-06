@@ -4,6 +4,10 @@ addons:
   apt:
     packages:
       - libgmp-dev
+      - ld
+      - nm
+      - objdump
+      - libgmp3c2
 services:
   - docker
 before_install:
