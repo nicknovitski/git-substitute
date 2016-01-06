@@ -1,12 +1,11 @@
 language: c
-sudo: false
+sudo: required
 addons:
   apt:
     packages:
       - libgmp-dev
-cache:
-  directories:
-    - $HOME/.stack
+services:
+  - docker
 before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
