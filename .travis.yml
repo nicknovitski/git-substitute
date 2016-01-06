@@ -1,6 +1,6 @@
-language: go
+language: c
 sudo: false
-install: make deps bats
+install: make bats
 before_deploy: make dist
 deploy:
   provider: releases
