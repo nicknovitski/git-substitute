@@ -1,6 +1,7 @@
 language: c
 sudo: false
 install: make bats
+script: make
 before_deploy: make dist
 deploy:
   provider: releases
