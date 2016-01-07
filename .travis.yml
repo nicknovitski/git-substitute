@@ -3,6 +3,13 @@ sudo: required
 addons:
   apt:
     packages:
+      - autoconf 
+      - libtool 
+      - ncurses-dev 
+      - g++ 
+      - dblatex 
+      - docbook-xsl 
+      - docbook-utils
       - libgmp-dev
       - libgmp10
       - libncurses5-dev
