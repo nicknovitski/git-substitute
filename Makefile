@@ -1,5 +1,11 @@
 default: test
 
+get-deps : bats
+	stack setup --os linux --arch x86_64
+	stack setup --os linux --arch i386
+	stack setup --os osx --arch i386
+	stack setup --os osx --arch x86_64
+
 dist/git_substitute_linux_386.tar.gz :
 	stack build --install-ghc --os linux --arch i386 --local-bin-path ./bin --copy-bins
 	tar --create --gzip --verbose --file=dist/git_substitute_linux_386.tar.gz --directory=bin/ git-substitute
