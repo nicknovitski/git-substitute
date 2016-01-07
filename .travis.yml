@@ -4,10 +4,13 @@ addons:
   apt:
     packages:
       - libgmp-dev
+      - libgmp10
+      - libncurses5-dev
+      - libtinfo5
+      - llvm
       - ld
       - nm
       - objdump
-      - libgmp3c2
 services:
   - docker
 before_install:
