@@ -21,7 +21,7 @@ before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
   - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
-install: make get-deps
+install: make bats
 script: make dist
 before_deploy: make dist
 deploy:
