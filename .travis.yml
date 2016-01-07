@@ -8,9 +8,6 @@ addons:
       - libncurses5-dev
       - libtinfo5
       - llvm
-      - ld
-      - nm
-      - objdump
 services:
   - docker
 before_install:
