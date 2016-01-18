@@ -1,19 +1,15 @@
 language: c
-os: osx
-sudo: required
-services:
-  - docker
+sudo: false
+os:
+  - linux
+  - osx
 before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
-  - travis_retry curl -L https://www.stackage.org/stack/osx-x86_64 | tar xz --strip-components=1 -C ~/.local/bin '*/stack'
-  - brew update
-  - brew install docker
+  - travis_retry curl -L https://www.stackage.org/stack/${TRAVIS_OS_NAME}-x86_64 | tar xz $(if [[ "$TRAVIS_OS_NAME" == "linux" ]]; echo "--wildcards"; fi)--strip-components=1 -C ~/.local/bin '*/stack'
 install: make get-deps
 script:
   - make test
-  - file bin/git-substitute
-  - make test-docker
   - file bin/git-substitute
 deploy:
   provider: releases
