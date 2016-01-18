@@ -9,7 +9,9 @@ before_install:
 install: make get-deps
 script:
   - make test
+  - file bin/git-substitute
   - make test-docker
+  - file bin/git-substitute
 deploy:
   provider: releases
   api_key:
