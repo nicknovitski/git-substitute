@@ -1,29 +1,15 @@
 language: c
 sudo: required
-addons:
-  apt:
-    packages:
-      - autoconf 
-      - libtool 
-      - ncurses-dev 
-      - g++ 
-      - dblatex 
-      - docbook-xsl 
-      - docbook-utils
-      - libgmp-dev
-      - libgmp10
-      - libncurses5-dev
-      - libtinfo5
-      - llvm
 services:
   - docker
 before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
   - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
-install: make bats
-script: make dist
-before_deploy: make dist
+install: make get-deps
+script:
+  - make test
+  - make test-docker
 deploy:
   provider: releases
   api_key:
