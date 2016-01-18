@@ -3,6 +3,10 @@ sudo: false
 os:
   - linux
   - osx
+addons:
+  apt:
+    packages:
+    - libgmp-dev
 before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
