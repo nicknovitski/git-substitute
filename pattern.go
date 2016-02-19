@@ -2,6 +2,7 @@ package main
 
 import (
 	"regexp"
+	"github.com/glenn-brown/golang-pkg-pcre/src/pkg/pcre"
 )
 
 type searchPattern struct {
@@ -29,7 +30,7 @@ func (s *searchPattern) includesBackreferences() bool {
 
 func (s *searchPattern) regexp() *regexp.Regexp {
 	if s.syntax == perl {
-		return regexp.MustCompile(s.goStyle())
+		return pcre.MustCompile(s.goStyle())
 	} else {
 		return regexp.MustCompilePOSIX(s.goStyle())
 	}
