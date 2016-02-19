@@ -1,7 +1,7 @@
 default: test
 
 deps:
-	go get github.com/docopt/docopt-go
+	go get
 
 dist: deps
 	go get github.com/mitchellh/gox
